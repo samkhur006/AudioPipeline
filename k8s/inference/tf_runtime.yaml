@@ -1,0 +1,29 @@
+# inference/tf_runtime.yaml
+apiVersion: serving.kserve.io/v1alpha1
+kind: ServingRuntime
+metadata:
+  name: tfserving-cpu
+  namespace: mlops-train
+spec:
+  supportedModelFormats:
+    - name: tensorflow
+      version: "2"
+      autoSelect: true
+  containers:
+    - name: kserve-container          
+      image: tensorflow/tensorflow:latest
+      command: ["/bin/sh","-c"]         
+      args:
+        - >
+          tensorflow_model_server
+          --port=8500
+          --rest_api_port=8501
+          --model_name=${MODEL_NAME:-model}
+          --model_base_path=${MODEL_DIR:-/mnt/models}
+      ports:
+        - name: http
+          containerPort: 8501
+          protocol: TCP
+        - name: grpc
+          containerPort: 8500
+          protocol: TCP

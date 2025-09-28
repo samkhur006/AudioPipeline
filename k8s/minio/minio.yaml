@@ -30,7 +30,6 @@ spec:
           httpGet: { path: /minio/health/live, port: 9000 }
           initialDelaySeconds: 20
           periodSeconds: 20
-        # ( Optional but helpful )
         resources:
           requests: { cpu: "200m", memory: "256Mi" }
           limits:   { cpu: "1",    memory: "2Gi" }

@@ -1,0 +1,36 @@
+# inference/inference_service.yaml
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: ${MODEL_NAME}
+  namespace: mlops-train
+  annotations:
+    serving.kserve.io/deploymentMode: RawDeployment
+spec:
+  predictor:
+    serviceAccountName: isvc-s3
+    model:
+      runtime: tfserving-cpu
+      modelFormat: { name: tensorflow }
+      storageUri: "s3://mlflow-artifacts/${EXP_ID}/${RUN_ID}/artifacts/model"
+      env:
+        - name: MODEL_NAME
+          value: "${MODEL_NAME}"
+        - name: MODEL_BASE_PATH
+          value: "/mnt/models"
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom: { secretKeyRef: { name: minio-secret, key: MINIO_ROOT_USER } }
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom: { secretKeyRef: { name: minio-secret, key: MINIO_ROOT_PASSWORD } }
+        - name: AWS_ENDPOINT_URL
+          value: "http://minio.mlops-train.svc.cluster.local:9000"
+        - name: S3_USE_HTTPS
+          value: "0"
+        - name: S3_VERIFY_SSL
+          value: "0"
+      readinessProbe:
+        httpGet:
+          path: /v1/models/${MODEL_NAME}
+          port: 8501
+        initialDelaySeconds: 5
+        periodSeconds: 10
