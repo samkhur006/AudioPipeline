@@ -1,0 +1,162 @@
+{
+  "dataset_info": {
+    "total_samples": 15,
+    "target_class": "dog",
+    "sample_rate": 22050,
+    "duration_seconds": 5.0,
+    "source_dataset": "ESC-50",
+    "created_date": "2025-09-27T23:08:55"
+  },
+  "samples": [
+    {
+      "filename": "dog_000.wav",
+      "filepath": "real_audio_dataset/dog/dog_000.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "3-157695-A-0.wav",
+      "esc_category": "dog",
+      "fold": 3
+    },
+    {
+      "filename": "dog_001.wav",
+      "filepath": "real_audio_dataset/dog/dog_001.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "3-136288-A-0.wav",
+      "esc_category": "dog",
+      "fold": 3
+    },
+    {
+      "filename": "dog_002.wav",
+      "filepath": "real_audio_dataset/dog/dog_002.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "2-122104-B-0.wav",
+      "esc_category": "dog",
+      "fold": 2
+    },
+    {
+      "filename": "dog_003.wav",
+      "filepath": "real_audio_dataset/dog/dog_003.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "4-184575-A-0.wav",
+      "esc_category": "dog",
+      "fold": 4
+    },
+    {
+      "filename": "dog_004.wav",
+      "filepath": "real_audio_dataset/dog/dog_004.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "1-32318-A-0.wav",
+      "esc_category": "dog",
+      "fold": 1
+    },
+    {
+      "filename": "dog_005.wav",
+      "filepath": "real_audio_dataset/dog/dog_005.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "2-118072-A-0.wav",
+      "esc_category": "dog",
+      "fold": 2
+    },
+    {
+      "filename": "dog_006.wav",
+      "filepath": "real_audio_dataset/dog/dog_006.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "5-217158-A-0.wav",
+      "esc_category": "dog",
+      "fold": 5
+    },
+    {
+      "filename": "dog_007.wav",
+      "filepath": "real_audio_dataset/dog/dog_007.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "4-191687-A-0.wav",
+      "esc_category": "dog",
+      "fold": 4
+    },
+    {
+      "filename": "dog_008.wav",
+      "filepath": "real_audio_dataset/dog/dog_008.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "5-9032-A-0.wav",
+      "esc_category": "dog",
+      "fold": 5
+    },
+    {
+      "filename": "dog_009.wav",
+      "filepath": "real_audio_dataset/dog/dog_009.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "1-85362-A-0.wav",
+      "esc_category": "dog",
+      "fold": 1
+    },
+    {
+      "filename": "dog_010.wav",
+      "filepath": "real_audio_dataset/dog/dog_010.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "4-183992-A-0.wav",
+      "esc_category": "dog",
+      "fold": 4
+    },
+    {
+      "filename": "dog_011.wav",
+      "filepath": "real_audio_dataset/dog/dog_011.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "2-114587-A-0.wav",
+      "esc_category": "dog",
+      "fold": 2
+    },
+    {
+      "filename": "dog_012.wav",
+      "filepath": "real_audio_dataset/dog/dog_012.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "2-118964-A-0.wav",
+      "esc_category": "dog",
+      "fold": 2
+    },
+    {
+      "filename": "dog_013.wav",
+      "filepath": "real_audio_dataset/dog/dog_013.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "4-207124-A-0.wav",
+      "esc_category": "dog",
+      "fold": 4
+    },
+    {
+      "filename": "dog_014.wav",
+      "filepath": "real_audio_dataset/dog/dog_014.wav",
+      "label": "dog",
+      "duration": 5.0,
+      "sample_rate": 22050,
+      "original_file": "5-208030-A-0.wav",
+      "esc_category": "dog",
+      "fold": 5
+    }
+  ]
+}

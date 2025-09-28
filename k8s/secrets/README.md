@@ -83,3 +83,53 @@ kubectl apply -f mlflow.yaml
 > kubectl get deployments -n mlops-train
 NAME     READY   UP-TO-DATE   AVAILABLE   AGE
 mlflow   1/1     1            1           16s
+
+
+----------------------------------------------------
+Step 6: Build the eval image with docker file
+
+eval $(minikube -p minikube docker-env)
+docker build -t yamnet-eval:dev ./eval
+
+
+> docker images
+REPOSITORY                                TAG                            IMAGE ID       CREATED          SIZE
+yamnet-eval                               dev                            9b8c585c79a0   13 seconds ago   2.64GB
+
+
+----------------------------------------------------
+Step 7: 
+
+DATASET_DIR="$(pwd)/real_audio_dataset"  
+minikube mount "${DATASET_DIR}":/mnt/datasets/real_audio_dataset
+
+
+> minikube ssh -- ls -lah /mnt/datasets/real_audio_dataset | head -n 20
+
+total 5.5K
+drwxr-xr-x 2 docker docker  544 Sep 27 23:16 dog
+-rw-r--r-- 1 docker docker 4.1K Sep 27 23:08 metadata.json
+
+
+----------------------------------------------------
+Step 8:  Create minio bucket
+kubectl port-forward -n mlops-train svc/minio 9001:9001 &
+Created bucket - "mlflow-artifacts" from http://localhost:9001
+
+
+----------------------------------------------------
+Step 9: 
+> kubectl -n mlops-train apply -f eval_job.yaml
+> kubectl get jobs -n mlops-train
+
+NAME                      STATUS     COMPLETIONS   DURATION   AGE
+yamnet-eval-localfs-001   Complete   1/1           9s         35s
+
+
+
+----------------------------------------------------
+Step 10: Get MLflow UI
+> kubectl port-forward -n mlops-train svc/mlflow 5000:5000 &
+
+Get the metrics from:
+http://localhost:5000/
