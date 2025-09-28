@@ -3,9 +3,16 @@ kind: Job
 metadata:
   name: yamnet-train-job
   namespace: mlops-train
+  labels:
+    kueue.x-k8s.io/queue-name: lq-train
 spec:
+  suspend: true
   template:
+    metadata:
+      labels:
+        kueue.x-k8s.io/queue-name: lq-train
     spec:
+      priorityClassName: train-normal
       containers:
       - name: yamnet-train
         image: yamnet-train:dev

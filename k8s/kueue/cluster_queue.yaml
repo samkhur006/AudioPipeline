@@ -1,0 +1,16 @@
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: ClusterQueue
+metadata:
+  name: cq-train
+spec:
+  namespaceSelector: {}  # Allow all namespaces
+  queueingStrategy: BestEffortFIFO
+  resourceGroups:
+  - coveredResources: ["cpu", "memory"]
+    flavors:
+    - name: default
+      resources:
+      - name: cpu
+        nominalQuota: "8"  # Adjusted for minikube
+      - name: memory
+        nominalQuota: "16Gi"  # Adjusted for minikube
