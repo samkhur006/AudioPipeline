@@ -133,3 +133,15 @@ Step 10: Get MLflow UI
 
 Get the metrics from:
 http://localhost:5000/
+
+
+
+----------------------------------------------------
+Step 11: Get models  from minio
+> kubectl -n mlops-train port-forward svc/minio 9000:9000 9001:9001
+
+The model is indeed found in the path:
+mlflow-artifacts/<experiment_id>/<run_id>/artifacts/...
+
+where experiment_id and run_id are found in the mlflow UI
+
