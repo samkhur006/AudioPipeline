@@ -62,3 +62,24 @@ kubectl apply -f minio.yaml
 NAME       READY   AGE
 minio      1/1     7s
 postgres   1/1     47m
+
+
+----------------------------------------------------
+Step 5:  MLflow
+
+kubectl apply -f mlflow_service.yaml
+
+> kubectl get services -n mlops-train
+NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+mlflow        ClusterIP   10.110.131.157   <none>        5432/TCP   17m
+postgres      ClusterIP   10.110.131.157   <none>        5432/TCP   60m
+postgres-hl   ClusterIP   None             <none>        5432/TCP   60m
+
+
+
+
+kubectl apply -f mlflow.yaml
+
+> kubectl get deployments -n mlops-train
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+mlflow   1/1     1            1           16s
