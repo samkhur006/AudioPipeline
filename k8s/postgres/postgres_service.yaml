@@ -1,0 +1,28 @@
+# Adding headless service for future use in case we have to add the postgress DB's
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-hl
+  namespace: mlops-train
+spec:
+  clusterIP: None
+  selector:
+    app: postgres
+  ports:
+    - name: pg
+      port: 5432
+      targetPort: 5432
+---
+# Client-facing ClusterIP service (stable single DNS name)
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: mlops-train
+spec:
+  selector:
+    app: postgres
+  ports:
+    - name: pg
+      port: 5432
+      targetPort: 5432

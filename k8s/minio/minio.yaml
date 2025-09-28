@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: { name: minio, namespace: mlops-train }
+spec:
+  serviceName: minio
+  replicas: 1
+  selector: { matchLabels: { app: minio } }
+  template:
+    metadata: { labels: { app: minio } }
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+      - name: minio
+        image: minio/minio:RELEASE.2024-06-13T22-53-53Z
+        # S3 on 9000, Console on 9001
+        args: ["server", "/data", "--address", ":9000", "--console-address", ":9001"]
+        ports:
+          - { containerPort: 9000, name: s3 }
+          - { containerPort: 9001, name: console }
+        envFrom: [{ secretRef: { name: minio-secret } }]
+        volumeMounts:
+          - { name: data, mountPath: /data }
+        # Health probes
+        readinessProbe:
+          httpGet: { path: /minio/health/ready, port: 9000 }
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          httpGet: { path: /minio/health/live, port: 9000 }
+          initialDelaySeconds: 20
+          periodSeconds: 20
+        # ( Optional but helpful )
+        resources:
+          requests: { cpu: "200m", memory: "256Mi" }
+          limits:   { cpu: "1",    memory: "2Gi" }
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+  volumeClaimTemplates:
+  - metadata: { name: data }
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources: { requests: { storage: 10Gi } }
