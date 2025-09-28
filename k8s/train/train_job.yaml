@@ -1,0 +1,67 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: yamnet-train-job
+  namespace: mlops-train
+spec:
+  template:
+    spec:
+      containers:
+      - name: yamnet-train
+        image: yamnet-train:dev
+        imagePullPolicy: Never
+        env:
+        - name: MLFLOW_TRACKING_URI
+          value: "http://mlflow:5000"
+        - name: AWS_ENDPOINT_URL
+          value: "http://minio:9000"
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: s3-minio-cred
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: s3-minio-cred
+              key: AWS_SECRET_ACCESS_KEY
+        - name: EXP_NAME
+          value: "yamnet-training"
+        - name: EPOCHS
+          value: "15"
+        - name: BATCH_SIZE
+          value: "8"
+        - name: LEARNING_RATE
+          value: "0.001"
+        - name: CLASS_FILTER
+          value: "dog"
+        - name: SAVE_MODEL
+          value: "true"
+        - name: DATA_BASE_DIR
+          value: "/data"
+        - name: MANIFEST_JSON
+          value: "/data/real_audio_dataset/metadata.json"
+        - name: DATA_HASH
+          value: "training-dataset-v1"
+        - name: GIT_SHA
+          value: "main"
+        - name: IMAGE_DIGEST
+          value: "yamnet-train:dev"
+        volumeMounts:
+        - name: dataset
+          mountPath: /data
+          readOnly: true
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+      volumes:
+      - name: dataset
+        hostPath:
+          path: /mnt/data
+          type: Directory
+      restartPolicy: Never
+  backoffLimit: 3
