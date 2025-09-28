@@ -1,0 +1,61 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: yamnet-eval-localfs-001
+  namespace: mlops-train
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: eval
+        image: yamnet-eval:dev            # built earlier with:  docker build ...
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: MLFLOW_TRACKING_URI
+            value: "http://mlflow.mlops-train.svc.cluster.local:5000"
+          - name: MLFLOW_S3_ENDPOINT_URL
+            value: "http://minio.mlops-train.svc.cluster.local:9000"
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef: { name: minio-secret, key: MINIO_ROOT_USER }
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef: { name: minio-secret, key: MINIO_ROOT_PASSWORD }
+          - name: AWS_DEFAULT_REGION
+            value: "us-east-1"
+          - name: AWS_S3_SIGNATURE_VERSION
+            value: "s3v4"
+          - name: AWS_S3_FORCE_PATH_STYLE
+            value: "true"
+
+          - name: EXP_NAME
+            value: "yamnet-dog-eval"
+          - name: MANIFEST_JSON
+            value: "/data/real_audio_dataset/metadata.json"
+          - name: DATA_BASE_DIR
+            value: "/data"
+          - name: CLASS_FILTER
+            value: "dog"
+          - name: TOP_N
+            value: "5"
+          - name: SAVE_WEIGHTS
+            value: "true"
+
+          - name: GIT_SHA
+            value: "local-dev"
+          - name: IMAGE_DIGEST
+            value: "dev"
+          - name: DATA_HASH
+            value: "rsrc-v1"
+
+        volumeMounts:
+          - name: dataset
+            mountPath: /data
+            readOnly: true
+      volumes:
+        - name: dataset
+          hostPath:
+            path: /mnt/data   
+            type: Directory
