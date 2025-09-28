@@ -68,7 +68,7 @@ docker run -it --rm tensorflow/tensorflow:latest python -c "import tensorflow as
 **Error:**
 ```
 The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
-
+```
 
 
 
@@ -76,7 +76,7 @@ Steps for repproducing are following:
 
 
 
-Step 0: Create the datasets using create_dataset.py
+#### Step 0: Create the datasets using create_dataset.py
 
 ----------------------------------------------------
 #### Step 1: Start Minikube Cluster
@@ -86,7 +86,7 @@ minikube start --cpus=4 --memory=8g \
   --wait=apiserver,system_pods \
   --wait-timeout=8m
 kubectl create ns mlops-train
-```
+
 
 #### Step 2: Deploy Secrets
 ```bash
@@ -199,7 +199,7 @@ tfserving-cpu              tensorflow   tfserving    37s
 
 
 
-
+```
 There is an issue with the current setup:-
 yamnet-tf-predictor-649dc6bcb4-t88jc   0/1     CrashLoopBackOff   1 (4s ago)     31s
 yamnet-tf-predictor-649dc6bcb4-t88jc   0/1     Error              2 (18s ago)    45s
@@ -226,7 +226,7 @@ yamnet-tf-predictor-6c5768869b-78sbn   0/1     CrashLoopBackOff   3 (2s ago)    
 yamnet-tf-predictor-6c5768869b-78sbn   0/1     Error              4 (50s ago)    104s
 yamnet-tf-predictor-6c5768869b-78sbn   0/1     CrashLoopBackOff   4 (8s ago)     111s
 yamnet-tf-predictor-6c5768869b-78sbn   0/1     Error              5 (84s ago)    3m7s
-
+```
 
 On more debigging found the following reason:
 
