@@ -125,7 +125,7 @@ def create_classifier_model(embedding_dim, learning_rate=0.001):
     model.compile(
         optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
         loss='binary_crossentropy',
-        metrics=['accuracy', tf.keras.metrics.Precision(), tf.keras.metrics.Recall()]
+        metrics=['accuracy', 'precision', 'recall']
     )
     
     return model
@@ -219,7 +219,6 @@ def main():
                 samples = meta["samples"]
                 target_class = meta["dataset_info"].get("target_class", CLASS_FILTER)
                 print(f"✅ Loaded manifest with {len(samples)} samples")
-                print(f"First sample: {samples[0] if samples else 'No samples'}")
                 mlflow.log_param("total_samples", len(samples))
                 mlflow.log_param("target_class", target_class)
             else:
@@ -260,15 +259,11 @@ def main():
         # Extract file paths
         audio_files = []
         for sample in samples:
-            file_path = sample.get("file_path", "") or sample.get("filepath", "")
+            file_path = sample.get("file_path", "")
             if file_path:
                 if not file_path.startswith("s3://") and not os.path.isabs(file_path):
                     file_path = resolve_path(file_path)
-                print(f"  Resolved path: {file_path} (exists: {os.path.exists(file_path)})")
-                if os.path.exists(file_path):
-                    audio_files.append(file_path)
-                else:
-                    print(f"  ❌ File not found: {file_path}")
+                audio_files.append(file_path)
         
         print(f"Processing {len(audio_files)} audio files...")
         

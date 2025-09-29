@@ -15,8 +15,8 @@ spec:
       priorityClassName: train-normal
       containers:
       - name: yamnet-train
-        image: yamnet-train:dev
-        imagePullPolicy: Never
+        image: registry.kube-system.svc.cluster.local/yamnet-train:dev
+        imagePullPolicy: IfNotPresent
         env:
         - name: MLFLOW_TRACKING_URI
           value: "http://mlflow:5000"
